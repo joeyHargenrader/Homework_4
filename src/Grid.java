@@ -62,10 +62,10 @@ class Grid extends JFrame {
         panel.add(valScore, c);
 
         int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        for(int kb = 0; kb < keybinds.length; kb++){
-            this.game.getInputMap(IFW).put(KeyStroke.getKeyStroke(keybinds[kb].c,0), keybinds[kb].name);
-            if(keybinds[kb].n) {
-                this.game.getActionMap().put(keybinds[kb].name, keybinds[kb].action);
+        for (Keybinds keybind : keybinds) {
+            this.game.getInputMap(IFW).put(KeyStroke.getKeyStroke(keybind.c, 0), keybind.name);
+            if (keybind.n) {
+                this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
         this.game.getActionMap().put("ENTER", new AbstractAction() {
@@ -84,12 +84,12 @@ class Grid extends JFrame {
         this.add(this.game);
         this.add(panel, BorderLayout.EAST);
 
-//        Timer rainbow = new Timer(80, null);
-//        rainbow.addActionListener(e -> {
-//            game.ind--;
-//            if(game.ind < 0){game.ind = game.rainbow.length;}
-//            game.repaint();
-//        });
+        Timer rainbow = new Timer(100, null);
+        rainbow.addActionListener(e -> {
+            game.ind++;
+            if(game.ind >= game.rainbow.length){game.ind = 0;}
+            game.repaint();
+        });
 
         Timer vel = new Timer(10, null);
         vel.addActionListener(e -> {
@@ -120,7 +120,7 @@ class Grid extends JFrame {
         start.addActionListener(e -> {
             vel.start();
             update.start();
-            //rainbow.start();
+            rainbow.start();
             p = false;
         });
         reset.addActionListener(e -> {

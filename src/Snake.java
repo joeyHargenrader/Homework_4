@@ -10,12 +10,12 @@ public class Snake extends JPanel {
     private shapeItem food;
     private int x, y, gSize, size, rows, cols, maxX, maxY;
     int xVel, yVel;
-    boolean collision, bRainbow = false;
+    boolean collision, bRainbow = true;
     private final Color VIOLET = new Color( 128, 0, 128 );
     private final Color INDIGO = new Color( 75, 0, 130 );
     Color[] c = {Color.green, Color.white};
-    private Color[] rainbow =  {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, INDIGO, VIOLET};
-    int ind = rainbow.length;
+    Color[] rainbow =  {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, INDIGO, VIOLET};
+    int ind = 0;
 
 
     Snake(int rows, int cols, int gSize, int num){
@@ -33,18 +33,17 @@ public class Snake extends JPanel {
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
         //Loop through all squares]
-        int sNum = 0;
-        for(shapeItem shapes: snake) {
-            int test = (ind + sNum) % (rainbow.length);
-            //System.out.println(test);
-            if(!bRainbow) {
-                g2.setColor(shapes.getColor());
+        for(int s = 0; s < snake.length; s++) {
+            int test = (ind + s) % (rainbow.length);
+            System.out.println("Snake " + s + ": " + test);
+            if (!bRainbow) {
+                g2.setColor(snake[s].getColor());
             } else {
                 g2.setColor(rainbow[test]);
             }
-            g2.fill(shapes.getShape());
-            sNum++;
+            g2.fill(snake[s].getShape());
         }
+        System.out.println("-----------");
 //        ind--;
 //        if(ind < 0){ind = rainbow.length;}
         //Draw food
