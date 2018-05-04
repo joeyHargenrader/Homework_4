@@ -44,13 +44,10 @@ class snakeFrame extends JFrame {
                 this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
-        Timer animation = new Timer(120, null);
+        Timer animation = new Timer(30, null);
         animation.addActionListener(e -> {
-            if(this.main.ani == 2) {
-                System.out.println("start");
-                if(this.main.ind == 6) {animation.stop();}
-                    this.main.repaint();
-            }
+            this.main.wiggle();
+            this.main.repaint();
         });
         animation.start();
         Timer rainbow = new Timer(100, null);
@@ -109,6 +106,10 @@ class snakeFrame extends JFrame {
             update.start();
             rainbow.start();
             p = false;
+        });
+
+        this.main.settings.addActionListener(e -> {
+            animation.start();
         });
 
 
