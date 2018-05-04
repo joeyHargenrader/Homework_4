@@ -17,15 +17,13 @@ class snakeFrame extends JFrame {
         this.setSize(cols * size, (rows * size) + 20);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        this.setBackground(Color.black);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //JMenuBar settings = new JMenuBar();
         JPanel panel;
         this.main = new Menu(this.getWidth(), this.getHeight());
         this.game = new Snake(rows, cols , size, numSnakes);
-        panel = new JPanel();
-        panel.setPreferredSize(new Dimension(250, rows * size));
-        panel.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        this.add(this.main, BorderLayout.CENTER);
 
         int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
         Keybinds[] keybinds = new Keybinds[]{
@@ -46,13 +44,6 @@ class snakeFrame extends JFrame {
                 this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
-
-        JButton gameStart = new JButton("Start");
-        this.add(this.main, BorderLayout.CENTER);
-        //this.add(gameStart);
-        //this.add(this.game);
-        //this.add(panel, BorderLayout.EAST);
-
         Timer rainbow = new Timer(100, null);
         rainbow.addActionListener(e -> {
             game.ind++;
@@ -178,7 +169,7 @@ class snakeFrame extends JFrame {
 //        }catch (Exception e){
 //            System.err.println("Error: " + e.getMessage());
 //        }
-        snakeFrame main = new snakeFrame(70, 70, 10, 3);
+        snakeFrame main = new snakeFrame(55, 55, 12, 3);
         main.setVisible(true);
     }
 }

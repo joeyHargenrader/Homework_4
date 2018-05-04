@@ -32,11 +32,11 @@ public class Snake extends JPanel {
         final Graphics2D g2 = (Graphics2D) g;
         //Loop through all squares]
         for(int s = 0; s < snake.length; s++) {
-            int test = (ind + s) % (rainbow.length);
+            int index = (ind + s) % (rainbow.length);
             if (!bRainbow) {
                 g2.setColor(snake[s].getColor());
             } else {
-                g2.setColor(rainbow[test]);
+                g2.setColor(rainbow[index]);
             }
             g2.fill(snake[s].getShape());
         }
@@ -68,8 +68,8 @@ public class Snake extends JPanel {
         collision(this.x, this.y);
         if(!collision) {
             for (int x = snake.length - 1; x > 0; x--) {
-                int tempX = snake[x - 1].shape.getBounds().x;
-                int tempY = snake[x - 1].shape.getBounds().y;
+                int tempX = snake[x - 1].getShape().getBounds().x;
+                int tempY = snake[x - 1].getShape().getBounds().y;
                 snake[x] = new shapeItem(new Rectangle(tempX, tempY, this.size, this.size), Color.white);
             }
             snake[0] = new shapeItem(new Rectangle((this.x), (this.y), this.size, this.size), Color.green);
@@ -78,10 +78,10 @@ public class Snake extends JPanel {
 
     //Adds a square to the snake
     public void addToSnake(){
-        int tempX1 = snake[snake.length - 1].shape.getBounds().x;
-        int tempY1 = snake[snake.length - 1].shape.getBounds().y;
-        int tempX2 = snake[snake.length - 2].shape.getBounds().x;
-        int tempY2 = snake[snake.length - 2].shape.getBounds().y;
+        int tempX1 = snake[snake.length - 1].getShape().getBounds().x;
+        int tempY1 = snake[snake.length - 1].getShape().getBounds().y;
+        int tempX2 = snake[snake.length - 2].getShape().getBounds().x;
+        int tempY2 = snake[snake.length - 2].getShape().getBounds().y;
 
         if(tempX1 > tempX2 && tempY1 == tempY2){ tempX1 += gSize;
         } else if(tempX1 < tempX2 && tempY1 == tempY2){tempX1 -= gSize; }
@@ -106,7 +106,7 @@ public class Snake extends JPanel {
             start = 1;
         }
         for(int s = start; s < length; s++){
-            if(snake[s].shape.getBounds().x == x && snake[s].shape.getBounds().y == y){
+            if(snake[s].getShape().getBounds().x == x && snake[s].getShape().getBounds().y == y){
                 return true;
             }
         }
@@ -128,30 +128,11 @@ public class Snake extends JPanel {
     }
 
     public boolean checkFood() {
-        if(checkForSnake(food.shape.getBounds().x, food.shape.getBounds().y, "foodEat")){
+        if(checkForSnake(food.getShape().getBounds().x, food.getShape().getBounds().y, "foodEat")){
             addToSnake();
             newFood();
             return true;
         }
         return false;
-    }
-
-    public class shapeItem {
-        Shape shape;
-        Color color;
-
-        shapeItem(Shape shape, Color color) {
-            this.shape = shape;
-            this.color = color;
-        }
-
-        public Shape getShape() {
-            return this.shape;
-        }
-
-        public Color getColor() {
-            return this.color;
-        }
-
     }
 }
