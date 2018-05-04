@@ -2,87 +2,56 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 
-class Grid extends JFrame {
+class snakeFrame extends JFrame {
 
     private Snake game;
+    private Menu main;
+
     private int score = 0, xVel = 0, newX = 0, yVel = 0, newY = -1;
-    boolean p = false;
-    private Keybinds[] keybinds = new Keybinds[] {
-            new Keybinds(KeyEvent.VK_UP, "UP", new dirAction(0, -1)),
-            new Keybinds(KeyEvent.VK_W, "UP"),
-            new Keybinds(KeyEvent.VK_RIGHT, "RIGHT", new dirAction(1, 0)),
-            new Keybinds(KeyEvent.VK_D, "RIGHT"),
-            new Keybinds(KeyEvent.VK_DOWN, "DOWN", new dirAction(0, 1)),
-            new Keybinds(KeyEvent.VK_S, "DOWN"),
-            new Keybinds(KeyEvent.VK_LEFT, "LEFT", new dirAction(-1, 0)),
-            new Keybinds(KeyEvent.VK_A, "LEFT"),
-            new Keybinds(KeyEvent.VK_ENTER, "ENTER"),
-            new Keybinds(KeyEvent.VK_ESCAPE, "ESC")
-    };
+    private boolean p = true;
 
 
-    Grid(int rows, int cols, int size, int numSnakes) {
+    snakeFrame(int rows, int cols, int size, int numSnakes) {
         super("Snake");
-        this.setSize(cols * size + 250, (rows * size) + 20);
+        this.setSize(cols * size, (rows * size) + 20);
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //JMenuBar settings = new JMenuBar();
         JPanel panel;
+        this.main = new Menu(this.getWidth(), this.getHeight());
         this.game = new Snake(rows, cols , size, numSnakes);
-        this.game.setBackground(Color.BLACK);
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(250, rows * size));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        //c.fill = GridBagConstraints.BOTH;
-
-        JButton start = new JButton("Start");
-        c.gridx = 0; c.gridy = 0; c.gridwidth = 3;
-        panel.add(start, c);
-
-        JButton pause = new JButton("Pause");
-        c.gridx = 3; c.gridy = 0; c.gridwidth = 3;
-        panel.add(pause, c);
-
-        JButton reset = new JButton("Reset");
-        c.gridx = 2; c.gridy = 1; c.gridwidth = 2;
-        panel.add(reset, c);
-
-        JButton addSnake = new JButton("Add Snake");
-        c.gridx = 2; c.gridy = 5;
-        panel.add(addSnake, c);
-
-        c.gridx = 0; c.gridy = 6; c.gridwidth = 6;
-        JLabel valScore = new JLabel("<html><body><center>SCORE<br>" + score + "</center></body></html>");
-        valScore.setFont(new Font("TimesRoman", Font.BOLD, 30));
-        c.gridx = 0; c.gridy = 7; c.gridwidth = 6;
-        panel.add(valScore, c);
 
         int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        Keybinds[] keybinds = new Keybinds[]{
+                new Keybinds(KeyEvent.VK_UP, "UP", new dirAction(0, -1)),
+                new Keybinds(KeyEvent.VK_W, "UP"),
+                new Keybinds(KeyEvent.VK_RIGHT, "RIGHT", new dirAction(1, 0)),
+                new Keybinds(KeyEvent.VK_D, "RIGHT"),
+                new Keybinds(KeyEvent.VK_DOWN, "DOWN", new dirAction(0, 1)),
+                new Keybinds(KeyEvent.VK_S, "DOWN"),
+                new Keybinds(KeyEvent.VK_LEFT, "LEFT", new dirAction(-1, 0)),
+                new Keybinds(KeyEvent.VK_A, "LEFT"),
+                new Keybinds(KeyEvent.VK_ENTER, "ENTER"),
+                new Keybinds(KeyEvent.VK_ESCAPE, "ESC")
+        };
         for (Keybinds keybind : keybinds) {
             this.game.getInputMap(IFW).put(KeyStroke.getKeyStroke(keybind.c, 0), keybind.name);
             if (keybind.n) {
                 this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
-        this.game.getActionMap().put("ENTER", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                start.doClick();
-            }
-        });
-        this.game.getActionMap().put("ESC", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pause.doClick();
-            }
-        });
 
-        this.add(this.game);
-        this.add(panel, BorderLayout.EAST);
+        JButton gameStart = new JButton("Start");
+        this.add(this.main, BorderLayout.CENTER);
+        //this.add(gameStart);
+        //this.add(this.game);
+        //this.add(panel, BorderLayout.EAST);
 
         Timer rainbow = new Timer(100, null);
         rainbow.addActionListener(e -> {
@@ -106,39 +75,62 @@ class Grid extends JFrame {
             game.repaint();
             if(game.checkFood()) {
                 score++;
-                valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
+                //valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
             }
             game.update(this.xVel, this.yVel);
             if(game.collision){
                 update.stop();
                 vel.stop();
-                valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
+                //valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
                 System.out.println("Game Over");
+
+
+                update.stop(); vel.stop();
+                this.newY = -1; this.newX = 0;
+                score = 0; //valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
+                game.reset(numSnakes); game.repaint();
+
+
+                this.remove(this.game);
+                this.add(this.main);
+                this.revalidate(); this.repaint();
             }
         });
 
-        start.addActionListener(e -> {
+        this.main.play.addActionListener(e -> {
+            this.remove(this.main);
+            this.add(this.game);
+            this.revalidate(); this.repaint();
+
+
             vel.start();
             update.start();
             rainbow.start();
             p = false;
         });
-        reset.addActionListener(e -> {
-            update.stop(); vel.stop();
-            this.newY = -1; this.newX = 0;
-            score = 0; valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
-            game.reset(numSnakes); game.repaint();
-        });
-        pause.addActionListener(e -> {
-            if(p) {vel.start();update.start(); p = false;}
-            else {vel.stop();update.stop(); p = true;}
+
+
+
+        this.game.getActionMap().put("ENTER", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                main.play.doClick();
+            }
         });
 
-        addSnake.addActionListener(e -> {
-            score++;
-            game.addToSnake();
-            game.repaint();
+        this.game.getActionMap().put("ESC", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(p) {vel.start();update.start(); p = false;}
+                else {vel.stop();update.stop(); p = true;}
+            }
         });
+
+//        addSnake.addActionListener(e -> {
+//            score++;
+//            game.addToSnake();
+//            game.repaint();
+//        });
     }
 
     private class dirAction extends AbstractAction {
@@ -151,13 +143,15 @@ class Grid extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                if (Math.abs(xVel - this.tempX) != 2 &&
-                    Math.abs(yVel - this.tempY) != 2) {
+            if (!p) {
+                if (Math.abs(xVel - this.tempX) != 2 && Math.abs(yVel - this.tempY) != 2) {
                     newX = this.tempX;
                     newY = this.tempY;
                 }
+            }
         }
     }
+
 
     public class Keybinds {
         int c; String name; dirAction action;
@@ -184,7 +178,7 @@ class Grid extends JFrame {
 //        }catch (Exception e){
 //            System.err.println("Error: " + e.getMessage());
 //        }
-        Grid main = new Grid(51, 51, 10, 3);
+        snakeFrame main = new snakeFrame(70, 70, 10, 3);
         main.setVisible(true);
     }
 }

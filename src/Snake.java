@@ -1,8 +1,5 @@
-import javafx.scene.shape.Circle;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.Arrays;
 
 public class Snake extends JPanel {
@@ -10,7 +7,7 @@ public class Snake extends JPanel {
     private shapeItem food;
     private int x, y, gSize, size, rows, cols, maxX, maxY;
     int xVel, yVel;
-    boolean collision, bRainbow = true;
+    boolean collision, bRainbow = false;
     private final Color VIOLET = new Color( 128, 0, 128 );
     private final Color INDIGO = new Color( 75, 0, 130 );
     Color[] c = {Color.green, Color.white};
@@ -19,6 +16,7 @@ public class Snake extends JPanel {
 
 
     Snake(int rows, int cols, int gSize, int num){
+        this.setBackground(Color.BLACK);
         this.maxX = cols * gSize; this.maxY = rows * gSize;
         this.gSize = gSize;
         this.size = gSize - 2;
@@ -35,7 +33,6 @@ public class Snake extends JPanel {
         //Loop through all squares]
         for(int s = 0; s < snake.length; s++) {
             int test = (ind + s) % (rainbow.length);
-            System.out.println("Snake " + s + ": " + test);
             if (!bRainbow) {
                 g2.setColor(snake[s].getColor());
             } else {
@@ -43,9 +40,6 @@ public class Snake extends JPanel {
             }
             g2.fill(snake[s].getShape());
         }
-        System.out.println("-----------");
-//        ind--;
-//        if(ind < 0){ind = rainbow.length;}
         //Draw food
         g2.setColor(food.getColor());
         g2.fill(food.getShape());
