@@ -30,6 +30,9 @@ public class Snake extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
+        //Draw food
+        g2.setColor(food.getColor());
+        g2.fill(food.getShape());
         //Loop through all squares]
         for(int s = 0; s < snake.length; s++) {
             int index = (ind + s) % (rainbow.length);
@@ -40,9 +43,6 @@ public class Snake extends JPanel {
             }
             g2.fill(snake[s].getShape());
         }
-        //Draw food
-        g2.setColor(food.getColor());
-        g2.fill(food.getShape());
     }
 
     //Set up snake

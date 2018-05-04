@@ -44,6 +44,15 @@ class snakeFrame extends JFrame {
                 this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
+        Timer animation = new Timer(120, null);
+        animation.addActionListener(e -> {
+            if(this.main.ani == 2) {
+                System.out.println("start");
+                if(this.main.ind == 6) {animation.stop();}
+                    this.main.repaint();
+            }
+        });
+        animation.start();
         Timer rainbow = new Timer(100, null);
         rainbow.addActionListener(e -> {
             game.ind++;
@@ -72,6 +81,8 @@ class snakeFrame extends JFrame {
             if(game.collision){
                 update.stop();
                 vel.stop();
+                this.main.ind = 0;
+                animation.start();
                 //valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
                 System.out.println("Game Over");
 

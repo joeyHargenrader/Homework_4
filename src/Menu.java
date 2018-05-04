@@ -13,49 +13,52 @@ public class Menu extends JPanel {
             {0, 1, 2, 3, 6, 10, 12, 16, 18, 22, 24, 25, 26, 27, 28} //Row 6
     };
     shapeItem[][] snakeLogo;
-    int offsetY, offsetX, size;
+    int offsetY, offsetX, size, ani = 0, ind = 0;
     // constructor
     public Menu(int w, int h) {
-        System.out.println("test");
         this.size = w / 35;
-        this.offsetY = ((((h/2) / this.size) - 7)/2) * this.size;
-        this.offsetX = (((w / this.size) - 29)/2) * this.size;
+        this.offsetY = ((((h / 2) / this.size) - 7) / 2) * this.size;
+        this.offsetX = (((w / this.size) - 29) / 2) * this.size;
         int buttonWidth = 280, buttonHeight = 45;
         snakeLogo = new shapeItem[snakeLogoCords.length][];
-        for(int r = 0; r < snakeLogoCords.length; r++){
+        for (int r = 0; r < snakeLogoCords.length; r++) {
             snakeLogo[r] = new shapeItem[snakeLogoCords[r].length];
-            for(int sn = 0; sn < snakeLogoCords[r].length; sn++){
+            for (int sn = 0; sn < snakeLogoCords[r].length; sn++) {
                 int x = snakeLogoCords[r][sn] * this.size;
-                snakeLogo[r][sn] = new shapeItem(new Rectangle(x + this.offsetX, (r * this.size) + this.offsetY, this.size - 2, this.size - 2));
+                snakeLogo[r][sn] = new shapeItem(new Rectangle(
+                        x + this.offsetX,
+                        (r * this.size) + this.offsetY,
+                        this.size - 2,
+                        this.size - 2));
             }
         }
-        // creating components & setting positions
-        int xPos = w/2 - (buttonWidth/2);
-        int yPos = h/2 - (buttonHeight/2);
+        //creating components & setting positions
+        int xPos = w / 2 - (buttonWidth / 2);
+        int yPos = h / 2 - (buttonHeight / 2);
         this.setLayout(null);
-        
-//        JLabel bg=new JLabel("SNAKE"); // maybe changing later to icon
-//        bg.setBounds(w/2 - 401/2, 60, 401, 100);
-        
-        play=new JButton("Play");
+
+        //JLabel bg=new JLabel("SNAKE"); // maybe changing later to icon
+        //bg.setBounds(w/2 - 401/2, 60, 401, 100);
+
+        play = new JButton("Play");
         play.setBounds(xPos, yPos, buttonWidth, buttonHeight);
-        
-        instructions=new JButton("Instructions");
+
+        instructions = new JButton("Instructions");
         instructions.setBounds(xPos, yPos + 50, buttonWidth, buttonHeight);
-        
-        settings=new JButton("Settings");
+
+        settings = new JButton("Settings");
         settings.setBounds(xPos, yPos + 100, buttonWidth, buttonHeight);
-        
-        highScores=new JButton("High Scores");
+
+        highScores = new JButton("High Scores");
         highScores.setBounds(xPos, yPos + 150, buttonWidth, buttonHeight);
-        
+
         // adding to JFrame
         //this.add(bg);
         this.add(play);
         this.add(instructions);
         this.add(settings);
         this.add(highScores);
-        
+
         // editing colors and fonts
         this.setBackground(Color.BLACK);
 //        bg.setFont(new Font("Serif", Font.PLAIN, 120));
@@ -78,16 +81,21 @@ public class Menu extends JPanel {
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
 
-        for(shapeItem[] row : snakeLogo){
-            for(shapeItem snake : row) {
-                g2.setColor(snake.getColor());
-                g2.fill(snake.getShape());
+
+        if(ani == 2) {
+            for(int x = 0; x <= ind; x++) {
+                if(ind > snakeLogo.length - 1){System.out.println("Break"); break;}
+                System.out.println("Run");
+                System.out.println(x);
+                for (shapeItem snake : snakeLogo[x]) {
+                    Color col = ani > 0 ? snake.getColor() : Color.black;
+                    g2.setColor(col);
+                    g2.fill(snake.getShape());
+                }
             }
-//            System.out.println("Test");
-//            long start = System.currentTimeMillis();
-//            while(System.currentTimeMillis() - start < 1000L){}
+            ind++;
         }
-        System.out.println("Paint");
+        ani = ani < 1 ? 1 : 2;
 
     }
 }
