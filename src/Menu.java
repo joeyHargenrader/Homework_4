@@ -25,7 +25,7 @@ public class Menu extends JPanel {
     public Menu(int w, int h) {
         this.size = w / 35;
         this.offsetY = ((((h / 2) / this.size) - 7) / 2) * this.size;
-        this.offsetX = (((w / this.size) - 29) / 2) * this.size;
+        this.offsetX = (((w / this.size) - 28) / 2) * this.size;
         int buttonWidth = 280, buttonHeight = 45;
         snakeLogo = new shapeItem[snakeLogoCords.length][];
         for (int r = 0; r < snakeLogoCords.length; r++) {
@@ -97,14 +97,15 @@ public class Menu extends JPanel {
     }
 
     public void wiggle() {
-        int max = 20;
+        int max = 10;
         int inc = 1;
         int curr = col < 29 ? col : 29;
+        boolean test;
         for(shapeItem[] rows : snakeLogo) {
             for (shapeItem snake : rows) {
-                snake.vel = snake.getDiff() == 0 ? -inc : snake.getDiff() == max ? inc : snake.vel;
+                snake.vel = snake.getDiff() == 0 ?
+                        -inc : snake.getDiff() == max ? inc : snake.vel;
                 snake.setRec(snake.getX(), snake.getY() + snake.vel, snake.getH());
-
             }
             if (curr == 0) {break;}
             curr--;

@@ -7,6 +7,7 @@ class snakeFrame extends JFrame {
 
     private Snake game;
     private Menu main;
+    private Instructions ins;
 
     private int score = 0, xVel = 0, newX = 0, yVel = 0, newY = -1;
     private boolean p = true;
@@ -20,8 +21,8 @@ class snakeFrame extends JFrame {
         this.setBackground(Color.black);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //JMenuBar settings = new JMenuBar();
-        JPanel panel;
         this.main = new Menu(this.getWidth(), this.getHeight());
+        this.ins = new Instructions(this.getWidth(), this.getHeight());
         this.game = new Snake(rows, cols , size, numSnakes);
         this.add(this.main, BorderLayout.CENTER);
 
@@ -44,7 +45,7 @@ class snakeFrame extends JFrame {
                 this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
-        Timer animation = new Timer(30, null);
+        Timer animation = new Timer(60, null);
         animation.addActionListener(e -> {
             this.main.wiggle();
             this.main.repaint();
@@ -76,8 +77,8 @@ class snakeFrame extends JFrame {
             }
             game.update(this.xVel, this.yVel);
             if(game.collision){
-                update.stop();
                 vel.stop();
+                update.stop();
                 this.main.ind = 0;
                 animation.start();
                 //valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
@@ -109,7 +110,18 @@ class snakeFrame extends JFrame {
         });
 
         this.main.settings.addActionListener(e -> {
-            animation.start();
+        });
+
+        this.main.instructions.addActionListener(e -> {
+            this.remove(this.main);
+            this.add(this.ins);
+            this.revalidate(); this.repaint();
+        });
+
+        this.ins.back.addActionListener(e -> {
+            this.remove(this.ins);
+            this.add(this.main);
+            this.revalidate(); this.repaint();
         });
 
 

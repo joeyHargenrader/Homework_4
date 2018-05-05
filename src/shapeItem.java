@@ -4,18 +4,13 @@ import java.awt.geom.Rectangle2D;
 public class shapeItem {
     private Shape shape;
     private Color color;
+    private Color startColor;
     int startY;
-    int vel = -1;
+    int vel;
 
     shapeItem(Shape shape, Color color) {
         this.shape = shape;
-        this.color = color;
-    }
-
-    shapeItem(Shape shape, int start){
-        this.shape = shape;
-        this.color = Color.white;
-        this.startY = start;
+        this.color = this.startColor = color;
     }
 
     shapeItem(Shape shape){
@@ -44,15 +39,19 @@ public class shapeItem {
         return this.shape.getBounds().getHeight();
     }
 
-    public int getW() {
-        return (int) this.shape.getBounds().getWidth();
-    }
-
     public double getDiff() {
         return Math.abs(this.shape.getBounds().getY() - this.startY);
     }
 
     public void setRec(double x, double y, double s) {
         this.shape = new Rectangle2D.Double(x, y, s, s);
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setColor() {
+        this.color = this.startColor;
     }
 }

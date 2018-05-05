@@ -7,7 +7,7 @@ public class Snake extends JPanel {
     private shapeItem food;
     private int x, y, gSize, size, rows, cols, maxX, maxY;
     int xVel, yVel;
-    boolean collision, bRainbow = false;
+    boolean collision, dead, bRainbow = false;
     private final Color VIOLET = new Color( 128, 0, 128 );
     private final Color INDIGO = new Color( 75, 0, 130 );
     Color[] c = {Color.green, Color.white};
@@ -70,9 +70,9 @@ public class Snake extends JPanel {
             for (int x = snake.length - 1; x > 0; x--) {
                 int tempX = snake[x - 1].getShape().getBounds().x;
                 int tempY = snake[x - 1].getShape().getBounds().y;
-                snake[x] = new shapeItem(new Rectangle(tempX, tempY, this.size, this.size), Color.white);
+                snake[x].setRec(tempX, tempY, this.size);
             }
-            snake[0] = new shapeItem(new Rectangle((this.x), (this.y), this.size, this.size), Color.green);
+            snake[0].setRec(this.x, this.y, this.size);
         }
     }
 
@@ -134,5 +134,16 @@ public class Snake extends JPanel {
             return true;
         }
         return false;
+    }
+
+    public void dead() {
+        for(shapeItem snakes : snake){
+            if(this.dead){
+                snakes.setColor();
+            } else {
+                snakes.setColor(Color.RED);
+            }
+        }
+        this.dead = !this.dead;
     }
 }
