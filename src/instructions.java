@@ -27,7 +27,7 @@ public class Instructions extends JPanel {
         
         // labels
         JLabel moveKeys=new JLabel();
-        moveKeys.setIcon(new ImageIcon(getClass().getResource("wasd.png")));
+        moveKeys.setIcon(new ImageIcon(getClass().getResource("resources/wasd.png")));
         moveKeys.setBounds(w/25, yPos, 700, 170);
         this.add(moveKeys);
         JLabel movement=new JLabel("Use the arrow keys or WASD to move your snake towards the food.");
@@ -37,18 +37,18 @@ public class Instructions extends JPanel {
         this.add(movement);
         
         JLabel pause=new JLabel("Press Esc to pause.");
-        pause.setIcon(new ImageIcon(getClass().getResource("esc.png")));
+        pause.setIcon(new ImageIcon(getClass().getResource("resources/esc.png")));
         pause.setFont(new Font("Serif", Font.BOLD, 20));
         pause.setForeground(Color.WHITE);
         pause.setBounds(w/3-20, yPos+160, 400, 170);
         this.add(pause);
         
         JLabel dieGif1=new JLabel();
-        dieGif1.setIcon(new ImageIcon(getClass().getResource("hitSnake.gif")));
+        dieGif1.setIcon(new ImageIcon(getClass().getResource("resources/hitSnake.gif")));
         dieGif1.setBounds(w/20, yPos+290, 300, 225);
         this.add(dieGif1);
         JLabel dieGif2=new JLabel();
-        dieGif2.setIcon(new ImageIcon(getClass().getResource("hitWall.gif")));
+        dieGif2.setIcon(new ImageIcon(getClass().getResource("resources/hitWall.gif")));
         dieGif2.setBounds(w/2, yPos+290, 300, 225);
         this.add(dieGif2);
         JLabel avoid=new JLabel("Avoid hitting yourself and the walls.");
