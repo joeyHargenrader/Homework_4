@@ -54,4 +54,11 @@ public class shapeItem {
     public void setColor() {
         this.color = this.startColor;
     }
+
+    public void setOpacity(int diff) {
+        this.color = new Color(this.startColor.getRed(),
+                this.startColor.getGreen(),
+                this.startColor.getBlue(),
+                this.color.getAlpha() + diff);
+    }
 }

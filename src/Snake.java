@@ -13,9 +13,15 @@ public class Snake extends JPanel {
     Color[] c = {Color.green, Color.white};
     Color[] rainbow =  {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, INDIGO, VIOLET};
     int ind = 0;
+    JPanel gameOver;
+    JLabel game, over, score;
+    JButton cont;
+    int opac = -20;
 
 
     Snake(int rows, int cols, int gSize, int num){
+        //this.setLayout(null);
+        this.setLayout(new GridBagLayout());
         this.setBackground(Color.BLACK);
         this.maxX = cols * gSize; this.maxY = rows * gSize;
         this.gSize = gSize;
@@ -24,6 +30,31 @@ public class Snake extends JPanel {
         this.cols = cols;
         reset(num);
         newFood();
+
+        //Game Over
+        int font = 120;
+        //gameOver.setText("GAME\nOVER");
+        gameOver = new JPanel();
+        game = new JLabel("GAME"); over = new JLabel("OVER"); score = new JLabel();
+        cont = new JButton("Continue");
+        Font sansSerif = new Font("Sans Serif", Font.BOLD, font);
+        game.setFont(sansSerif); over.setFont(sansSerif);
+        score.setFont(new Font("Sans Serif", Font.BOLD, font / 2));
+        cont.setFont(new Font("Sans Serif", Font.BOLD, font / 2));
+        game.setHorizontalAlignment(SwingConstants.CENTER);
+        over.setHorizontalAlignment(SwingConstants.CENTER);
+        score.setHorizontalAlignment(SwingConstants.CENTER);
+        game.setForeground(new Color(255, 255, 255, 0));
+        over.setForeground(new Color(255, 255, 255, 0));
+        score.setForeground(new Color(255, 255, 255, 0));
+        cont.setOpaque(false); cont.setContentAreaFilled(false); cont.setBorderPainted(false);
+        cont.setForeground(new Color(255,255,255,0));
+        cont.setBackground(Color.white);
+        gameOver.setLayout(new GridLayout(4, 1));
+        gameOver.add(game); gameOver.add(over); gameOver.add(score);gameOver.add(cont);
+        gameOver.setOpaque(false);
+        GridBagConstraints g = new GridBagConstraints();
+        this.add(gameOver, g);
     }
 
     //Draws all the squares
@@ -58,6 +89,7 @@ public class Snake extends JPanel {
             offset += this.size + 2;
             tempC = Color.white;
         }
+        newFood();
     }
         //Updates all squares
     public void update(int xVel, int yVel) {
@@ -137,6 +169,7 @@ public class Snake extends JPanel {
     }
 
     public void dead() {
+        //System.out.println(rec);
         for(shapeItem snakes : snake){
             if(this.dead){
                 snakes.setColor();
@@ -149,5 +182,32 @@ public class Snake extends JPanel {
             this.dead = !this.dead;
             test = 0;
         }
+        //this.repaint();
+        //while(rec < 12){dead(rec + 1);}
+    }
+
+    public void gameOver(int fScore){
+        if(fScore > 0) {
+            score.setText("Score: " + fScore);
+        }
+        game.setForeground(new Color(255, 255, 255, game.getForeground().getAlpha() + -opac));
+        over.setForeground(new Color(255, 255, 255, over.getForeground().getAlpha() + -opac));
+        score.setForeground(new Color(255, 255, 255, score.getForeground().getAlpha() + -opac));
+        cont.setForeground(new Color(255, 255, 255, cont.getForeground().getAlpha() + -opac));
+    }
+
+    public void cont() {
+        score.setText("");
+        game.setForeground(new Color(255, 255, 255, 0));
+        over.setForeground(new Color(255, 255, 255, 0));
+        score.setForeground(new Color(255, 255, 255, 0));
+        cont.setForeground(new Color(255, 255, 255, 0));
+    }
+
+    public void fadeOut() {
+        for(shapeItem snakes : snake){
+                snakes.setOpacity(opac);
+        }
+        food.setOpacity(opac);
     }
 }
