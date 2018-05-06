@@ -5,15 +5,9 @@ public class Instructions extends JPanel {
     JButton back;
     // constructor
     public Instructions(int w, int h) {
-//        this.setSize(w,h);
-//        this.setResizable(false);
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         int xPos=w/30;
         int yPos=h/10;
-        // panel
-//        JPanel inst=new JPanel();
-//        this.add(inst);
         this.setLayout(null);
         this.setBackground(Color.BLACK);
         this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLUE), "INSTRUCTIONS", TitledBorder.CENTER, TitledBorder.TOP, new Font("Times New Roman", Font.PLAIN, 45), Color.WHITE));
@@ -46,10 +40,10 @@ public class Instructions extends JPanel {
         JLabel dieGif1=new JLabel();
         dieGif1.setIcon(new ImageIcon(getClass().getResource("resources/hitSnake.gif")));
         dieGif1.setBounds(w/20, yPos+290, 300, 225);
-        this.add(dieGif1);
         JLabel dieGif2=new JLabel();
         dieGif2.setIcon(new ImageIcon(getClass().getResource("resources/hitWall.gif")));
         dieGif2.setBounds(w/2, yPos+290, 300, 225);
+        this.add(dieGif1);
         this.add(dieGif2);
         JLabel avoid=new JLabel("Avoid hitting yourself and the walls.");
         avoid.setFont(new Font("Serif", Font.BOLD, 20));

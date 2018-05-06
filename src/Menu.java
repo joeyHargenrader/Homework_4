@@ -3,15 +3,6 @@ import java.awt.*;
 
 public class Menu extends JPanel {
     JButton play, instructions, settings, highScores;
-//    int[][] snakeLogoCords = {
-//            {1, 2, 3, 4, 6, 10, 13, 14, 15, 18, 22, 24, 25, 26, 27, 28}, //Row 0
-//            {0, 6, 10, 12, 16, 18, 21, 24}, //Row 1
-//            {0, 6, 7, 10, 12, 16, 18, 20, 24}, //Row 2
-//            {0, 1, 2, 3, 6, 8, 10, 12, 13, 14, 15, 16, 18, 19, 24, 25, 26, 27}, //Row 3
-//            {4, 6, 9, 10, 12, 16, 18, 20, 24}, //Row 4
-//            {4, 6, 10, 12, 16, 18, 21, 24}, //Row 5
-//            {0, 1, 2, 3, 6, 10, 12, 16, 18, 22, 24, 25, 26, 27, 28} //Row 6
-//    };
     int [][] snakeLogoCords = {
             {1, 2, 3, 6}, {0, 3, 6}, {0, 3, 6}, {0, 3, 6}, {0, 4, 5}, {}, //S
             {0, 1, 2, 3, 4, 5, 6}, {2}, {3}, {4}, {0, 1, 2, 3, 4, 5, 6}, {}, //N
@@ -20,7 +11,7 @@ public class Menu extends JPanel {
             {0, 1, 2, 3, 4, 5, 6}, {0, 3, 6,}, {0, 3, 6}, {0, 3, 6}, {0, 6} //E
             };
     shapeItem[][] snakeLogo;
-    int offsetY, offsetX, size, ani = 0, ind = 0, col = 0;
+    int offsetY, offsetX, size, col = 0, ind = 0;
     // constructor
     public Menu(int w, int h) {
         this.size = w / 35;
@@ -44,9 +35,6 @@ public class Menu extends JPanel {
         int yPos = h / 2 - (buttonHeight / 2);
         this.setLayout(null);
 
-        //JLabel bg=new JLabel("SNAKE"); // maybe changing later to icon
-        //bg.setBounds(w/2 - 401/2, 60, 401, 100);
-
         play = new JButton("Play");
         play.setBounds(xPos, yPos, buttonWidth, buttonHeight);
 
@@ -60,7 +48,6 @@ public class Menu extends JPanel {
         highScores.setBounds(xPos, yPos + 150, buttonWidth, buttonHeight);
 
         // adding to JFrame
-        //this.add(bg);
         this.add(play);
         this.add(instructions);
         this.add(settings);
@@ -68,8 +55,6 @@ public class Menu extends JPanel {
 
         // editing colors and fonts
         this.setBackground(Color.BLACK);
-//        bg.setFont(new Font("Serif", Font.PLAIN, 120));
-//        bg.setForeground(Color.WHITE);
         play.setBackground(Color.WHITE);
         play.setForeground(Color.BLUE);
         play.setFont(new Font("Sans Serif", Font.PLAIN, 30));
@@ -100,7 +85,6 @@ public class Menu extends JPanel {
         int max = 10;
         int inc = 1;
         int curr = col < 29 ? col : 29;
-        boolean test;
         for(shapeItem[] rows : snakeLogo) {
             for (shapeItem snake : rows) {
                 snake.vel = snake.getDiff() == 0 ?

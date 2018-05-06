@@ -9,7 +9,7 @@ class snakeFrame extends JFrame {
     private Menu main;
     private Instructions ins;
 
-    private int score = 0, xVel = 0, newX = 0, yVel = 0, newY = -1;
+    private int score = 0, xVel = 0, newX = 0, yVel = 0, newY = -1, f = 0, uTime = 80;
     private boolean p = true;
 
 
@@ -68,7 +68,7 @@ class snakeFrame extends JFrame {
             }
         });
 
-        Timer update = new Timer(80, null);
+        Timer update = new Timer(uTime, null);
         update.addActionListener(e -> {
             game.repaint();
             if(game.checkFood()) {
@@ -77,23 +77,34 @@ class snakeFrame extends JFrame {
             }
             game.update(this.xVel, this.yVel);
             if(game.collision){
+                this.xVel = this.yVel = 0;
                 vel.stop();
-                update.stop();
-                this.main.ind = 0;
-                animation.start();
-                //valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
-                System.out.println("Game Over");
+                if(f < 12) {
+                    this.game.dead();
+                    f++;
+                } else {
+                    update.stop();
+                    this.main.ind = 0;
+                    animation.start();
+                    //valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
+                    System.out.println("Game Over");
 
 
-                update.stop(); vel.stop();
-                this.newY = -1; this.newX = 0;
-                score = 0; //valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
-                game.reset(numSnakes); game.repaint();
+                    update.stop();
+                    vel.stop();
+                    this.newY = -1;
+                    this.newX = 0;
+                    this.f = 0;
+                    score = 0; //valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
+                    game.reset(numSnakes);
+                    game.repaint();
 
 
-                this.remove(this.game);
-                this.add(this.main);
-                this.revalidate(); this.repaint();
+                    this.remove(this.game);
+                    this.add(this.main);
+                    this.revalidate();
+                    this.repaint();
+                }
             }
         });
 

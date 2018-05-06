@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Snake extends JPanel {
     private shapeItem[] snake;
     private shapeItem food;
-    private int x, y, gSize, size, rows, cols, maxX, maxY;
+    private int x, y, gSize, size, rows, cols, maxX, maxY, test = 0;
     int xVel, yVel;
     boolean collision, dead, bRainbow = false;
     private final Color VIOLET = new Color( 128, 0, 128 );
@@ -144,6 +144,10 @@ public class Snake extends JPanel {
                 snakes.setColor(Color.RED);
             }
         }
-        this.dead = !this.dead;
+        test++;
+        if(test == 2) {
+            this.dead = !this.dead;
+            test = 0;
+        }
     }
 }
