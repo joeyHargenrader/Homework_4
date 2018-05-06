@@ -19,9 +19,7 @@ class snakeFrame extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setBackground(Color.black);
-        //this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //JMenuBar settings = new JMenuBar();
         this.main = new Menu(this.getWidth(), this.getHeight());
         this.ins = new instructions(this.getWidth(), this.getHeight());
         this.game = new Snake(rows, cols , size, numSnakes);
@@ -84,7 +82,6 @@ class snakeFrame extends JFrame {
                     this.game.dead();
                     f++;
                 } else if (f < 24) {
-                    this.game.fadeOut();
                     this.game.gameOver(score);
                     f++;
                 }
@@ -95,7 +92,6 @@ class snakeFrame extends JFrame {
             update.stop();
             this.main.ind = 0;
             animation.start();
-            //valScore.setText("<html><body><center>SCORE<br>" + score + "<br>GAME OVER</center></body></html>");
             System.out.println("Game Over");
 
 
@@ -104,7 +100,7 @@ class snakeFrame extends JFrame {
             this.newY = -1;
             this.newX = 0;
             this.f = 0;
-            score = 0; //valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
+            score = 0;
             game.reset(numSnakes);
             game.repaint();
             this.game.cont();
@@ -159,12 +155,6 @@ class snakeFrame extends JFrame {
                 else {vel.stop();update.stop(); p = true;}
             }
         });
-
-//        addSnake.addActionListener(e -> {
-//            score++;
-//            game.addToSnake();
-//            game.repaint();
-//        });
     }
 
     private class dirAction extends AbstractAction {
