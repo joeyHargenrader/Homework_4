@@ -3,6 +3,7 @@ import java.awt.*;
 
 public class Menu extends JPanel {
     JButton play, instructions, settings, highScores;
+    int buttonWidth = 280, buttonHeight = 45, xPos, yPos;
     int [][] snakeLogoCords = {
             {1, 2, 3, 6}, {0, 3, 6}, {0, 3, 6}, {0, 3, 6}, {0, 4, 5}, {}, //S
             {0, 1, 2, 3, 4, 5, 6}, {2}, {3}, {4}, {0, 1, 2, 3, 4, 5, 6}, {}, //N
@@ -17,7 +18,6 @@ public class Menu extends JPanel {
         this.size = w / 35;
         this.offsetY = ((((h / 2) / this.size) - 7) / 2) * this.size;
         this.offsetX = (((w / this.size) - 28) / 2) * this.size;
-        int buttonWidth = 280, buttonHeight = 45;
         snakeLogo = new shapeItem[snakeLogoCords.length][];
         for (int r = 0; r < snakeLogoCords.length; r++) {
             snakeLogo[r] = new shapeItem[snakeLogoCords[r].length];
@@ -31,42 +31,24 @@ public class Menu extends JPanel {
             }
         }
         //creating components & setting positions
-        int xPos = w / 2 - (buttonWidth / 2);
-        int yPos = h / 2 - (buttonHeight / 2);
+        xPos = w / 2 - (buttonWidth / 2);
+        yPos = h / 2 - (buttonHeight / 2);
         this.setLayout(null);
 
         play = new JButton("Play");
-        play.setBounds(xPos, yPos, buttonWidth, buttonHeight);
+        newButton(play, 0);
 
         instructions = new JButton("Instructions");
-        instructions.setBounds(xPos, yPos + 50, buttonWidth, buttonHeight);
+        newButton(instructions, 50);
 
         settings = new JButton("Settings");
-        settings.setBounds(xPos, yPos + 100, buttonWidth, buttonHeight);
+        newButton(settings, 100);
 
         highScores = new JButton("High Scores");
-        highScores.setBounds(xPos, yPos + 150, buttonWidth, buttonHeight);
-
-        // adding to JFrame
-        this.add(play);
-        this.add(instructions);
-        this.add(settings);
-        this.add(highScores);
+        newButton(highScores, 150);
 
         // editing colors and fonts
         this.setBackground(Color.BLACK);
-        play.setBackground(Color.WHITE);
-        play.setForeground(Color.BLUE);
-        play.setFont(new Font("Sans Serif", Font.PLAIN, 30));
-        instructions.setBackground(Color.WHITE);
-        instructions.setForeground(Color.BLUE);
-        instructions.setFont(new Font("Sans Serif", Font.PLAIN, 30));
-        settings.setBackground(Color.WHITE);
-        settings.setForeground(Color.BLUE);
-        settings.setFont(new Font("Sans Serif", Font.PLAIN, 30));
-        highScores.setBackground(Color.WHITE);
-        highScores.setForeground(Color.BLUE);
-        highScores.setFont(new Font("Sans Serif", Font.PLAIN, 30));
 
     }
     protected void paintComponent(Graphics g) {
@@ -95,5 +77,13 @@ public class Menu extends JPanel {
             curr--;
         }
         col++;
+    }
+
+    public void newButton(Component b, int offset){
+        b.setBounds(xPos, yPos + offset, buttonWidth, buttonHeight);
+        b.setBackground(Color.WHITE);
+        b.setForeground(Color.BLUE);
+        b.setFont(new Font("Sans Serif", Font.PLAIN, 30));
+        this.add(b);
     }
 }

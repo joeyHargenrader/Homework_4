@@ -9,7 +9,7 @@ class snakeFrame extends JFrame {
     private Menu main;
     private instructions ins;
 
-    private int score = 0, xVel = 0, newX = 0, yVel = 0, newY = -1, f = 0, uTime = 80;
+    private int score, xVel, newX, yVel, newY, f;
     private boolean p = true;
 
 
@@ -38,18 +38,21 @@ class snakeFrame extends JFrame {
                 new Keybinds(KeyEvent.VK_ENTER, "ENTER"),
                 new Keybinds(KeyEvent.VK_ESCAPE, "ESC")
         };
+
         for (Keybinds keybind : keybinds) {
             this.game.getInputMap(IFW).put(KeyStroke.getKeyStroke(keybind.c, 0), keybind.name);
             if (keybind.n) {
                 this.game.getActionMap().put(keybind.name, keybind.action);
             }
         }
+
         Timer animation = new Timer(60, null);
         animation.addActionListener(e -> {
             this.main.wiggle();
             this.main.repaint();
         });
         animation.start();
+
         Timer rainbow = new Timer(100, null);
         rainbow.addActionListener(e -> {
             game.ind++;
@@ -67,12 +70,10 @@ class snakeFrame extends JFrame {
             }
         });
 
-        Timer update = new Timer(uTime, null);
+        Timer update = new Timer(80, null);
         update.addActionListener(e -> {
-            game.repaint();
             if(game.checkFood()) {
                 score++;
-                //valScore.setText("<html><body><center>SCORE<br>" + score + "</center></body></html>");
             }
             game.update(this.xVel, this.yVel);
             if(game.collision) {
@@ -87,36 +88,21 @@ class snakeFrame extends JFrame {
                 }
             }
         });
+
         this.game.cont.addActionListener(e -> {
             this.game.cont();
-            update.stop();
-            this.main.ind = 0;
-            animation.start();
-            System.out.println("Game Over");
-
+            reset(numSnakes);
 
             update.stop();
             vel.stop();
-            this.newY = -1;
-            this.newX = 0;
-            this.f = 0;
-            score = 0;
+            rainbow.stop();
             game.reset(numSnakes);
-            game.repaint();
-            this.game.cont();
 
-
-            this.remove(this.game);
-            this.add(this.main);
-            this.revalidate();
-            this.repaint();
+            swap(this.game, this.main);
         });
 
         this.main.play.addActionListener(e -> {
-            this.remove(this.main);
-            this.add(this.game);
-            this.revalidate(); this.repaint();
-
+            swap(this.main, this.game);
 
             vel.start();
             update.start();
@@ -128,15 +114,11 @@ class snakeFrame extends JFrame {
         });
 
         this.main.instructions.addActionListener(e -> {
-            this.remove(this.main);
-            this.add(this.ins);
-            this.revalidate(); this.repaint();
+            swap(this.main, this.ins);
         });
 
         this.ins.back.addActionListener(e -> {
-            this.remove(this.ins);
-            this.add(this.main);
-            this.revalidate(); this.repaint();
+            swap(this.ins, this.main);
         });
 
 
@@ -155,6 +137,8 @@ class snakeFrame extends JFrame {
                 else {vel.stop();update.stop(); p = true;}
             }
         });
+
+        reset(numSnakes);
     }
 
     private class dirAction extends AbstractAction {
@@ -191,6 +175,22 @@ class snakeFrame extends JFrame {
             this.name = n;
         }
 
+    }
+
+    public void reset(int num) {
+        this.newY = -1;
+        this.newX = 0;
+        this.f = 0;
+        score = 0;
+        this.game.reset(num);
+    }
+
+    public void toggleTimers() {
+    }
+
+    public void swap(Component a, Component b) {
+        this.remove(a); this.add(b);
+        this.revalidate(); this.repaint();
     }
 
     public static void main(String[] args) {

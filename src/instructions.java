@@ -43,8 +43,7 @@ public class instructions extends JPanel {
         JLabel dieGif2=new JLabel();
         dieGif2.setIcon(new ImageIcon(getClass().getResource("resources/hitWall.gif")));
         dieGif2.setBounds(w/2, yPos+290, 300, 225);
-        this.add(dieGif1);
-        this.add(dieGif2);
+        this.add(dieGif1); this.add(dieGif2);
         JLabel avoid=new JLabel("Avoid hitting yourself and the walls.");
         avoid.setFont(new Font("Serif", Font.BOLD, 20));
         avoid.setForeground(Color.WHITE);

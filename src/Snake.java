@@ -33,7 +33,7 @@ public class Snake extends JPanel {
         reset(num);
 
         //Game Over
-        int font = 120;
+        int font = (int) ((cols * gSize) / 5.5);
 
         //Initialize the gui
         gameOver = new JPanel();
@@ -113,6 +113,7 @@ public class Snake extends JPanel {
 
         //Create a food
         newFood();
+        this.repaint();
     }
 
     //Updates all squares
@@ -141,6 +142,8 @@ public class Snake extends JPanel {
             //Then update first square to new position
             snake[0].setRec(this.x, this.y, this.size);
         }
+
+        this.repaint();
     }
 
     //Adds a square to the snake
