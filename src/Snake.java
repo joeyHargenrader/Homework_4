@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class Snake extends JPanel {
     private shapeItem[] snake;
     private shapeItem food;
+    private shapeItem[] testFood;
     private int x, y, gSize, size, rows, cols, maxX, maxY, test = 0;
     int xVel, yVel;
     boolean collision, dead, bRainbow = false;
@@ -87,6 +88,11 @@ public class Snake extends JPanel {
         g2.setColor(food.getColor());
         g2.fill(food.getShape());
 
+//        for(shapeItem food: testFood) {
+//            g2.setColor(food.getColor());
+//            g2.fill(food.getShape());
+//        }
+
         //Loop through all sections of the snake
         for(int s = 0; s < snake.length; s++) {
             int index = (ind + s) % (rainbow.length);
@@ -124,7 +130,11 @@ public class Snake extends JPanel {
         }
 
         //Create a food
-        newFood();
+//        testFood = new shapeItem[3];
+//        for(int f = 0; f < testFood.length; f++) {
+//            testFood[f] = newFood();
+//        }
+        food = newFood();
         this.repaint();
     }
 
@@ -214,7 +224,7 @@ public class Snake extends JPanel {
     }
 
     //Create a new food
-    private void newFood(){
+    private shapeItem newFood(){
 
         //Get random cords within the window
         int tempX = (int) (Math.random() * this.cols) * this.gSize;
@@ -231,12 +241,13 @@ public class Snake extends JPanel {
         if(!checkForSnake(tempX, tempY, "foodSpawn")){
 
             //If not create new shapeItem with supplied rectangle
-            food = new shapeItem(foodS, foodC);
+            return new shapeItem(foodS, foodC);
         } else {
 
             //If true run newFood() again to get new cords
             System.out.println("Food spawn attempt on snake.");
-            newFood();
+            return newFood();
+            //newFood();
         }
     }
 
@@ -306,7 +317,7 @@ public class Snake extends JPanel {
         cont.setForeground(new Color(255, 255, 255, cont.getForeground().getAlpha() + -opac));
     }
 
-    //Function that runs when the conitnue button is pressed
+    //Function that runs when the continue button is pressed
     public void cont() {
 
         //Reset score

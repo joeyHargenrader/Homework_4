@@ -39,7 +39,7 @@ class snakeFrame extends JFrame {
                 new Keybinds(KeyEvent.VK_S, "DOWN"),
                 new Keybinds(KeyEvent.VK_LEFT, "LEFT", new dirAction(-1, 0)),
                 new Keybinds(KeyEvent.VK_A, "LEFT"),
-                new Keybinds(KeyEvent.VK_ENTER, "ENTER"),
+                new Keybinds(KeyEvent.VK_ENTER, "ESC"),
                 new Keybinds(KeyEvent.VK_ESCAPE, "ESC")
         };
 
@@ -69,7 +69,7 @@ class snakeFrame extends JFrame {
 
         //Timer that serves as a buffer, so that you aren't able to input commands too fast which caused an issue of flipping
         //velocities
-        Timer vel = new Timer(10, null);
+        Timer vel = new Timer(1, null);
         vel.addActionListener(e -> {
             if(this.xVel != this.newX || this.yVel != this.newY) {
                 if (Math.abs(this.newX - game.xVel) != 2 && Math.abs(this.newY - game.yVel) != 2) {
@@ -208,7 +208,6 @@ class snakeFrame extends JFrame {
             }
         }
     }
-
 
     //Class that handles keybinds
     public class Keybinds {
