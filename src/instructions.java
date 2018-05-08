@@ -68,7 +68,5 @@ public class instructions extends JPanel {
         avoid.setForeground(Color.WHITE);
         avoid.setBounds(w/4, yPos+510, 700, 40);
         this.add(avoid);
-
-        this.setVisible(true);
     }
 }
