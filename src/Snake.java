@@ -15,6 +15,8 @@ public class Snake extends JPanel {
     private final Color INDIGO = new Color( 75, 0, 130 );
     Color[] c = {Color.green, Color.white};
     Color[] rainbow =  {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, INDIGO, VIOLET};
+    Color head = Color.GREEN;
+    Color body = Color.WHITE;
     int ind = 0;
     JPanel gameOver;
     JLabel game, over, score;
@@ -85,13 +87,13 @@ public class Snake extends JPanel {
         final Graphics2D g2 = (Graphics2D) g;
 
         //Draw food
-        g2.setColor(food.getColor());
-        g2.fill(food.getShape());
+//        g2.setColor(food.getColor());
+//        g2.fill(food.getShape());
 
-//        for(shapeItem food: testFood) {
-//            g2.setColor(food.getColor());
-//            g2.fill(food.getShape());
-//        }
+        for(shapeItem food: testFood) {
+            g2.setColor(food.getColor());
+            g2.fill(food.getShape());
+        }
 
         //Loop through all sections of the snake
         for(int s = 0; s < snake.length; s++) {
@@ -118,7 +120,7 @@ public class Snake extends JPanel {
         int offset = 0;
 
         //Set first square to be green
-        Color tempC = Color.green;
+        Color tempC = head;
         snake = new shapeItem[num];
 
         //Create the snake
@@ -126,15 +128,15 @@ public class Snake extends JPanel {
             snake[s] = new shapeItem(new Rectangle(this.x, this.y + offset, this.size , this.size), tempC);
             offset += this.gSize;
             //Set the rest of the squares to be white
-            tempC = Color.white;
+            tempC = body;
         }
 
         //Create a food
-//        testFood = new shapeItem[3];
-//        for(int f = 0; f < testFood.length; f++) {
-//            testFood[f] = newFood();
-//        }
-        food = newFood();
+        testFood = new shapeItem[10];
+        for(int f = 0; f < testFood.length; f++) {
+            testFood[f] = newFood(f);
+        }
+        //food = newFood();
         this.repaint();
     }
 
@@ -196,7 +198,7 @@ public class Snake extends JPanel {
     }
 
     //Checks if the snake collides with wall/food/itself
-    private boolean checkForSnake(int x, int y, String type) {
+    private boolean checkForSnake(double x, double y, String type) {
         //Initialize variables
         int start = 0;
         int length = snake.length;
@@ -214,7 +216,7 @@ public class Snake extends JPanel {
         for(int s = start; s < length; s++){
 
             //If equal return true
-            if(snake[s].getShape().getBounds().x == x && snake[s].getShape().getBounds().y == y){
+            if(snake[s].getX() == x && snake[s].getY() == y){
                 return true;
             }
         }
@@ -224,7 +226,7 @@ public class Snake extends JPanel {
     }
 
     //Create a new food
-    private shapeItem newFood(){
+    private shapeItem newFood(int ind){
 
         //Get random cords within the window
         int tempX = (int) (Math.random() * this.cols) * this.gSize;
@@ -238,34 +240,56 @@ public class Snake extends JPanel {
         Color foodC = Color.red;
 
         //Check if food spawns on snake
-        if(!checkForSnake(tempX, tempY, "foodSpawn")){
+        if(!checkForSnake(tempX, tempY, "") && !checkForFood(tempX, tempY, ind)){
 
             //If not create new shapeItem with supplied rectangle
             return new shapeItem(foodS, foodC);
         } else {
 
             //If true run newFood() again to get new cords
-            System.out.println("Food spawn attempt on snake.");
-            return newFood();
+            System.out.println("Food spawn attempt on snake or other food.");
+            return newFood(ind);
             //newFood();
         }
     }
 
     //Check if snake ate a food
-    public boolean checkFood() {
+    public boolean checkFood(int i) {
 
         //Check collision against food cords
-        if(checkForSnake(food.getShape().getBounds().x, food.getShape().getBounds().y, "foodEat")){
+        //if(checkForSnake(food.getShape().getBounds().x, food.getShape().getBounds().y, "foodEat")){
+        if(checkForSnake(testFood[i].getX(), testFood[i].getY(), "foodEat")){
 
             //If true add new square to snake, reset the food
             addToSnake();
-            newFood();
+            //food = newFood();
+            testFood[i] = newFood(i);
 
             //Return true to update score value in snakeFrame
             return true;
         }
 
         //If true isn't returned, no food collision return false
+        return false;
+    }
+
+    public boolean foodCheck() {
+        boolean result = false;
+        for(int f = 0; f < testFood.length; f++) {
+            result = checkFood(f);
+            if(result){break;}
+        }
+        return result;
+    }
+
+    public boolean checkForFood(int x, int y, int ind){
+        for(int f = 0; f < testFood.length; f++){
+            if(f == ind){continue;}
+            if(testFood[f] == null) {break;}
+            if(testFood[f].getX() == x && testFood[f].getY() == y) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -299,7 +323,9 @@ public class Snake extends JPanel {
         for(shapeItem snakes : snake){
             snakes.setOpacity(opac);
         }
-        food.setOpacity(opac);
+        for(shapeItem food: testFood) {
+            food.setOpacity(opac);
+        }
 
         //If the score isn't 0 add score, if 0 leave empty
         if(fScore != 0) {

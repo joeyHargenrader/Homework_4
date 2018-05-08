@@ -84,7 +84,7 @@ class snakeFrame extends JFrame {
         update.addActionListener(e -> {
 
             //Checks for food each update, if found increases score
-            if(game.checkFood()) {
+            if(game.foodCheck()) {
                 score++;
             }
 

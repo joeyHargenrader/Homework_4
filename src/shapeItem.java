@@ -27,17 +27,11 @@ public class shapeItem {
         return this.color;
     }
 
-    public double getX() {
-        return this.shape.getBounds().getX();
-    }
+    public double getX() { return this.shape.getBounds().getX(); }
 
-    public double getY() {
-        return this.shape.getBounds().getY();
-    }
+    public double getY() { return this.shape.getBounds().getY(); }
 
-    public double getH() {
-        return this.shape.getBounds().getHeight();
-    }
+    public double getH() {return this.shape.getBounds().getHeight(); }
 
     public double getDiff() {
         return Math.abs(this.shape.getBounds().getY() - this.startY);
