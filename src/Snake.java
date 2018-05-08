@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Snake extends JPanel {
@@ -33,18 +35,28 @@ public class Snake extends JPanel {
         reset(num);
 
         //Game Over
-        int font = (int) ((cols * gSize) / 5.5);
+        int font = (int) ((cols * gSize) / 2.5);
 
         //Initialize the gui
         gameOver = new JPanel();
         game = new JLabel("GAME"); over = new JLabel("OVER"); score = new JLabel();
         cont = new JButton("Continue");
 
+        //Load in custom font
+        try {
+            GraphicsEnvironment ge =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("resources/Game_Over.ttf")));
+        } catch (IOException |FontFormatException e) {
+            //Handle exception
+            System.out.println(e.getMessage());
+        }
+
         //Set the font
-        Font sansSerif = new Font("Sans Serif", Font.BOLD, font);
-        game.setFont(sansSerif); over.setFont(sansSerif);
-        score.setFont(new Font("Sans Serif", Font.BOLD, font / 2));
-        cont.setFont(new Font("Sans Serif", Font.BOLD, font / 2));
+        Font customFont = new Font("Game Over", Font.PLAIN, font);
+        game.setFont(customFont); over.setFont(customFont);
+        score.setFont(new Font("Game Over", Font.PLAIN, font / 2));
+        cont.setFont(new Font("Game Over", Font.PLAIN, font / 2));
 
         //Align the labels to the center
         game.setHorizontalAlignment(SwingConstants.CENTER);

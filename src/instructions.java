@@ -1,11 +1,22 @@
+import com.sun.javafx.iio.ImageFrame;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.border.TitledBorder;
 public class instructions extends JPanel {
     JButton back;
+    int width, height;
     // constructor
     public instructions(int w, int h) {
 
+        this.width = w;
+        this.height = h;
         int xPos=w/30;
         int yPos=h/10;
         this.setLayout(null);
@@ -37,13 +48,21 @@ public class instructions extends JPanel {
         pause.setBounds(w/3-20, yPos+160, 400, 170);
         this.add(pause);
 
+        int test = (w - (225 * 2)) / 3;
+        int bor = 2;
         JLabel dieGif1=new JLabel();
-        dieGif1.setIcon(new ImageIcon(getClass().getResource("resources/hitSnake.gif")));
-        dieGif1.setBounds(w/20, yPos+290, 300, 225);
+        JPanel border1 = new JPanel();
+        border1.setBackground(Color.white);
+        border1.setBounds(test - bor, (yPos+290) - bor, 225 + (bor * 2), 225 + (bor * 2));
+        dieGif1.setIcon(new ImageIcon(getClass().getResource("resources/SnakeDieWallSmall.gif")));
+        dieGif1.setBounds(test, yPos+290, 225, 225);
         JLabel dieGif2=new JLabel();
-        dieGif2.setIcon(new ImageIcon(getClass().getResource("resources/hitWall.gif")));
-        dieGif2.setBounds(w/2, yPos+290, 300, 225);
-        this.add(dieGif1); this.add(dieGif2);
+        JPanel border2 = new JPanel();
+        border2.setBackground(Color.white);
+        border2.setBounds(((test * 2) + 225) - bor, (yPos+290) - bor, 225 + (bor * 2), 225 + (bor * 2));
+        dieGif2.setIcon(new ImageIcon(getClass().getResource("resources/SnakeDieSelfSmall.gif")));
+        dieGif2.setBounds((test * 2) + 225, yPos+290, 225, 225);
+        this.add(dieGif1); this.add(dieGif2); this.add(border1); this.add(border2);
         JLabel avoid=new JLabel("Avoid hitting yourself and the walls.");
         avoid.setFont(new Font("Serif", Font.BOLD, 20));
         avoid.setForeground(Color.WHITE);
@@ -52,10 +71,4 @@ public class instructions extends JPanel {
 
         this.setVisible(true);
     }
-
-//    // testing
-//    public static void main(String[] args)
-//    {
-//        Instructions i=new Instructions(660,680);
-//    }
 }

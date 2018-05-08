@@ -60,7 +60,6 @@ public class Menu extends JPanel {
                 g2.fill(snake.getShape());
             }
         }
-
     }
 
     public void wiggle() {
