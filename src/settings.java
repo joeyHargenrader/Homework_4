@@ -1,6 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-public class Settings extends JLabel {
+public class settings extends JLabel {
 	public settings() {
 		super("Settings");
 		this.setLayout(new GridLayout(4, 2));
