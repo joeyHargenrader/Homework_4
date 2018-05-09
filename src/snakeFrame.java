@@ -8,6 +8,8 @@ class snakeFrame extends JFrame {
     private Snake game;
     private Menu main;
     private instructions ins;
+    
+    private AudioClip music;
 
     private int score, xVel, newX, yVel, newY, f;
     private boolean p = true;
@@ -25,6 +27,10 @@ class snakeFrame extends JFrame {
         this.ins = new instructions(this.getWidth(), this.getHeight());
         this.game = new Snake(rows, cols , size, numSnakes);
 
+        // loops music
+        music=Applet.newAudioClip(this.getClass().getResource("resources/Marshmello-Alone.wav"));
+        music.loop();
+        
         //Add main screen
         this.add(this.main);
 
@@ -166,7 +172,7 @@ class snakeFrame extends JFrame {
         this.game.getActionMap().put("ENTER", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                vel.start(); update.start(); p = false;
+                vel.start(); update.start(); p = false; music.loop();
             }
         });
 
@@ -174,8 +180,8 @@ class snakeFrame extends JFrame {
         this.game.getActionMap().put("ESC", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(p) {vel.start();update.start(); p = false;}
-                else {vel.stop();update.stop(); p = true;}
+                if(p) {vel.start();update.start(); p = false; music.loop();}
+                else {vel.stop();update.stop(); p = true; music.stop();}
             }
         });
 
